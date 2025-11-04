@@ -2,6 +2,22 @@
 
 All notable changes to the MCP Entra Server project will be documented in this file.
 
+## [1.0.2] - 2025-11-04
+
+### Added
+
+- `chat_test.py` - Interactive chat-like test console for local testing without Claude Desktop
+- Table-based output formatting for better readability (groups, users, devices, sites)
+- `get_group_details` - New tool to get comprehensive group information with 25+ properties
+- `createdDateTime` field added to `list_groups` response
+
+### Enhanced
+
+- Group management with more detailed information (security settings, membership rules, sync status)
+- Human-readable datetime formatting (ISO to YYYY-MM-DD HH:MM)
+- None-safe string handling in table formatters
+- Total tool count increased from 32 to 33
+
 ## [1.0.1] - 2025-11-04
 
 ### Fixed

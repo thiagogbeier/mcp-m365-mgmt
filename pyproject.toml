@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "mcp-m365-mgmt"
-version = "1.0.1"
-description = "MCP server for Microsoft 365 and Intune management with 32 tools for Entra ID, devices, Autopilot, and more"
+version = "1.0.2"
+description = "MCP server for Microsoft 365 and Intune management with 33 tools for Entra ID, devices, Autopilot, and more"
 readme = "README.md"
 requires-python = ">=3.9"
 license = {text = "MIT"}
@@ -73,7 +73,7 @@ Changelog = "https://github.com/thiagogbeier/mcp-m365-mgmt/blob/main/CHANGELOG.m
 m365-mgmt = "mcp_m365_mgmt:main"
 
 [tool.setuptools]
-py-modules = ["mcp_m365_mgmt", "test_client"]
+py-modules = ["mcp_m365_mgmt", "test_client", "chat_test"]
 include-package-data = true
 
 [tool.setuptools.package-data]

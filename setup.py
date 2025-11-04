@@ -6,14 +6,14 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="mcp-m365-mgmt",
-    version="1.0.1",
+    version="1.0.2",
     author="Thiago Beier",
     author_email="thiago.beier@gmail.com",
     description="MCP server for Microsoft 365 and Intune management",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/thiagogbeier/mcp-m365-mgmt",
-    py_modules=["mcp_m365_mgmt", "test_client"],
+    py_modules=["mcp_m365_mgmt", "test_client", "chat_test"],
     python_requires=">=3.9",
     install_requires=[
         "fastmcp>=0.1.0",
