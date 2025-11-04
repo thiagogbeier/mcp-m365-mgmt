@@ -1,0 +1,8 @@
+{
+	"mcpServers": {
+		"m365-mgmt": {
+			"command": "python",
+			"args": ["c:\\temp\\mcp\\mcp365\\mcp-m365-mgmt\\mcp_m365_mgmt.py"]
+		}
+	}
+}

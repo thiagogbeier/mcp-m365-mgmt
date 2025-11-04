@@ -1,0 +1,80 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mcp-m365-mgmt"
+version = "1.0.0"
+description = "MCP server for Microsoft 365 and Intune management with 32 tools for Entra ID, devices, Autopilot, and more"
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "MIT"}
+authors = [
+    {name = "Thiago Beier", email = "thiago.beier@gmail.com"}
+]
+maintainers = [
+    {name = "Thiago Beier", email = "thiago.beier@gmail.com"}
+]
+keywords = [
+    "mcp",
+    "microsoft-365",
+    "intune",
+    "entra-id",
+    "azure-ad",
+    "autopilot",
+    "device-management",
+    "sharepoint",
+    "graph-api",
+    "model-context-protocol"
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Intended Audience :: System Administrators",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: System :: Systems Administration",
+    "Topic :: Office/Business",
+]
+
+dependencies = [
+    "fastmcp>=0.1.0",
+    "azure-identity>=1.25.0",
+    "requests>=2.31.0",
+    "python-docx>=1.1.0",
+    "openpyxl>=3.1.0",
+    "python-pptx>=0.6.23",
+    "odfpy>=1.4.1",
+    "python-dotenv>=1.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "build>=0.10.0",
+    "twine>=4.0.0",
+    "pytest>=7.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/thiagogbeier/mcp-m365-mgmt"
+Repository = "https://github.com/thiagogbeier/mcp-m365-mgmt"
+Issues = "https://github.com/thiagogbeier/mcp-m365-mgmt/issues"
+Documentation = "https://github.com/thiagogbeier/mcp-m365-mgmt#readme"
+Changelog = "https://github.com/thiagogbeier/mcp-m365-mgmt/blob/main/CHANGELOG.md"
+
+[project.scripts]
+m365-mgmt = "mcp_m365_mgmt:main"
+
+[tool.setuptools]
+py-modules = ["mcp_m365_mgmt", "test_client"]
+include-package-data = true
+
+[tool.setuptools.package-data]
+"*" = ["*.md", "*.txt", "mcp/*.json"]

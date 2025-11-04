@@ -1,0 +1,9 @@
+include README.md
+include LICENSE
+include CHANGELOG.md
+include AUTHENTICATION.md
+include DEPLOYMENT.md
+include TOOLS-SUMMARY.md
+include requirements.txt
+include .env.template
+recursive-include mcp *.json
