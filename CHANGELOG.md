@@ -2,6 +2,13 @@
 
 All notable changes to the MCP Entra Server project will be documented in this file.
 
+## [1.0.1] - 2025-11-04
+
+### Fixed
+
+- Unicode encoding error in startup message causing Claude Desktop connection failures on Windows
+- Changed startup logging to use stderr.write() instead of print() for better MCP compatibility
+
 ## [1.0.0] - 2025-11-04
 
 ### 🎉 Initial Release
