@@ -1,14 +1,16 @@
-# Environment variables and secrets
+# Environment variables - NEVER commit credentials
 .env
 *.env
 !.env.template
 
-# Python
+# Python cache and bytecode
 __pycache__/
 *.py[cod]
 *$py.class
 *.so
 .Python
+
+# Build artifacts - generated during `python -m build`
 build/
 develop-eggs/
 dist/
@@ -24,25 +26,39 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+MANIFEST
 
-# Virtual environments
+# Virtual environments - local development only
 .venv/
 venv/
 ENV/
 env/
+*.virtualenv
 
-# IDE
+# IDE settings - personal preferences
 .vscode/
 .idea/
 *.swp
 *.swo
 *~
-.DS_Store
+.project
+.pydevproject
+.settings/
 
-# Testing
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+*.lnk
+
+# Testing artifacts
 .pytest_cache/
 .coverage
 htmlcov/
+.tox/
+.nox/
+coverage.xml
+*.cover
 
 # Logs
 *.log
@@ -52,3 +68,11 @@ logs/
 *.tmp
 *.temp
 .cache/
+.temp/
+tmp/
+
+# Local test data and scratch work
+test_output/
+scratch/
+sandbox/
+local_tests/
