@@ -903,7 +903,7 @@ def list_users():
 
 @mcp.tool()
 def list_groups():
-    """Lists all groups in the tenant."""
+    """Lists all groups in the tenant with creation date."""
     access_token = get_access_token()
     
     headers = {
@@ -928,10 +928,63 @@ def list_groups():
                 "mailEnabled": group.get("mailEnabled"),
                 "securityEnabled": group.get("securityEnabled"),
                 "mail": group.get("mail"),
-                "groupTypes": group.get("groupTypes")
+                "groupTypes": group.get("groupTypes"),
+                "createdDateTime": group.get("createdDateTime")
             })
         
         return {"groups": groups, "count": len(groups)}
+    else:
+        return {"error": response.text, "status_code": response.status_code}
+
+@mcp.tool()
+def get_group_details(group_id: str):
+    """Gets detailed information about a specific group including all properties.
+    
+    Args:
+        group_id: The ID of the group to retrieve details for
+    """
+    access_token = get_access_token()
+    
+    headers = {
+        "Authorization": f"Bearer {access_token}",
+        "Content-Type": "application/json"
+    }
+    
+    response = requests.get(
+        f"https://graph.microsoft.com/v1.0/groups/{group_id}",
+        headers=headers
+    )
+    
+    if response.status_code == 200:
+        group = response.json()
+        return {
+            "id": group.get("id"),
+            "displayName": group.get("displayName"),
+            "description": group.get("description"),
+            "mail": group.get("mail"),
+            "mailEnabled": group.get("mailEnabled"),
+            "mailNickname": group.get("mailNickname"),
+            "securityEnabled": group.get("securityEnabled"),
+            "securityIdentifier": group.get("securityIdentifier"),
+            "groupTypes": group.get("groupTypes"),
+            "createdDateTime": group.get("createdDateTime"),
+            "renewedDateTime": group.get("renewedDateTime"),
+            "deletedDateTime": group.get("deletedDateTime"),
+            "expirationDateTime": group.get("expirationDateTime"),
+            "membershipRule": group.get("membershipRule"),
+            "membershipRuleProcessingState": group.get("membershipRuleProcessingState"),
+            "visibility": group.get("visibility"),
+            "isAssignableToRole": group.get("isAssignableToRole"),
+            "onPremisesDomainName": group.get("onPremisesDomainName"),
+            "onPremisesNetBiosName": group.get("onPremisesNetBiosName"),
+            "onPremisesSamAccountName": group.get("onPremisesSamAccountName"),
+            "onPremisesSyncEnabled": group.get("onPremisesSyncEnabled"),
+            "onPremisesLastSyncDateTime": group.get("onPremisesLastSyncDateTime"),
+            "preferredDataLocation": group.get("preferredDataLocation"),
+            "preferredLanguage": group.get("preferredLanguage"),
+            "proxyAddresses": group.get("proxyAddresses"),
+            "theme": group.get("theme")
+        }
     else:
         return {"error": response.text, "status_code": response.status_code}
 
