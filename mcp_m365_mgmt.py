@@ -1602,7 +1602,10 @@ def create_odf_document(location_type: str, location_id: str, file_name: str, do
 
 async def async_main():
     """Async entry point for MCP server."""
-    print("🚀 Starting MCP server for Microsoft Entra...")
+    import sys
+    # Write startup message to stderr so it appears in logs, avoiding encoding issues
+    sys.stderr.write("Starting MCP server for Microsoft 365 Management...\n")
+    sys.stderr.flush()
     await mcp.run_stdio_async()
 
 def main():
