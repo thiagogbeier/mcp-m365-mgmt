@@ -9,6 +9,34 @@
 - Best for: Automated tasks, background processes
 - Set: `AUTH_MODE=app` in `.env`
 
+Since this mode uses client-credentials auth (the `https://graph.microsoft.com/.default` scope), it needs **Application** permissions with admin consent, not delegated ones. Add all of the following under **API permissions** → **Add a permission** → **Microsoft Graph** → **Application permissions**, then **Grant admin consent**:
+
+| Permission | Enables |
+| --- | --- |
+| `User.ReadWrite.All` | `create_user`, `set_user_mail`, `get_user_info`, `list_users` |
+| `User-PasswordProfile.ReadWrite.All` | `set_user_password` (`User.ReadWrite.All` does not cover password changes) |
+| `Group.Read.All` | `list_groups`, `get_group_details`, `get_group_members` |
+| `Sites.ReadWrite.All` | `list_sharepoint_sites`, `create_file_in_sharepoint` |
+| `Files.ReadWrite.All` | `create_file_in_onedrive`, `create_word_document`, `create_excel_workbook`, `create_powerpoint_presentation`, `create_csv_file`, `read_csv_file`, `convert_file_to_pdf`, `export_powerpoint_slide_as_image`, `create_odf_document` |
+| `DeviceManagementManagedDevices.Read.All` | `list_intune_devices` |
+| `DeviceManagementConfiguration.Read.All` | `list_intune_compliance_policies`, `list_intune_configuration_policies`, `list_intune_filters`, `list_intune_scripts`, `list_android_management_profiles`, `list_ios_management_profiles` |
+| `DeviceManagementApps.Read.All` | `list_intune_applications`, `list_app_protection_policies` |
+| `DeviceManagementServiceConfig.Read.All` | `list_autopilot_profiles`, `list_autopilot_devices`, `list_enrollment_status_page_profiles`, `list_microsoft_tunnel_sites`, `list_microsoft_tunnel_servers`, `list_intune_ad_connectors`, `list_intune_certificate_connectors` |
+
+All the `list_*`/`get_*` tools only read, so their `.Read.All` grants are sufficient; only the create/patch tools (users, mail, password, files) need `ReadWrite.All`.
+
+The same application permissions apply with `AUTH_MODE=managed_identity` (the Azure-hosted deployment). The portal cannot grant Graph permissions to a managed identity, so assign each one to the identity's service principal with Microsoft Graph, for example:
+
+```bash
+MI_SP_ID=$(az ad sp list --display-name <app-service-name> --query "[0].id" -o tsv)
+GRAPH_SP_ID=$(az ad sp show --id 00000003-0000-0000-c000-000000000000 --query id -o tsv)
+ROLE_ID=$(az ad sp show --id 00000003-0000-0000-c000-000000000000 --query "appRoles[?value=='User-PasswordProfile.ReadWrite.All'].id" -o tsv)
+az rest --method POST --url "https://graph.microsoft.com/v1.0/servicePrincipals/$MI_SP_ID/appRoleAssignments" \
+  --body "{\"principalId\":\"$MI_SP_ID\",\"resourceId\":\"$GRAPH_SP_ID\",\"appRoleId\":\"$ROLE_ID\"}"
+```
+
+New permissions only take effect in a newly issued token. With `AUTH_MODE=managed_identity` on App Service, the platform caches managed identity tokens for up to 24 hours, and restarting the app does not clear that cache, so a newly granted permission can take up to a day to apply.
+
 ### 2. User Authentication (Delegated Permissions)
 
 - Files show as modified by the logged-in user
@@ -30,11 +58,16 @@
    - Remove application permissions (if any)
    - Add **Delegated permissions**:
      - `User.ReadWrite.All`
+     - `User-PasswordProfile.ReadWrite.All`
      - `Group.Read.All`
-     - `DeviceManagementManagedDevices.Read.All`
      - `Sites.ReadWrite.All`
      - `Files.ReadWrite.All`
+     - `DeviceManagementManagedDevices.Read.All`
+     - `DeviceManagementConfiguration.Read.All`
+     - `DeviceManagementApps.Read.All`
+     - `DeviceManagementServiceConfig.Read.All`
    - Click **Grant admin consent**
+   - See the permission table above for which tools each one enables (same mapping applies to the delegated equivalents)
 
 ### Step 2: Update .env file
 
